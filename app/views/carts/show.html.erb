@@ -1,0 +1,42 @@
+<!--This function is used to check the cart is empty or not. If crt is empty then it will not load the cart-->
+<!--Here cart is the variable comes from the class cart_controller-->
+<% unless @cart.line_items.empty? %>
+
+<div class="cart_title">Your Cart</div>
+<table>
+  <!--<%# @cart.line_items.each do |item| %>-->
+      <!--<tr>-->
+        <!--<td><%#= item.quantity %>&times;</td>-->
+        <!--<td><%#= item.product.title %></td>-->
+        <!--<td class="item_price"><%#= number_to_currency(item.total_price) %></td>-->
+      <!--</tr>-->
+  <!--<%# end %>-->
+  <!--The render method will iterate over any collection that-->
+  <!--is passed to it. The partial template itself is simply another template file (by-->
+  <!--default in the same directory as the object being rendered and with the name-->
+  <!--of the table as the name). However, to keep the names of partials distinct-->
+  <!--from regular templates, Rails automatically prepends an underscore to the-->
+  <!--partial name when looking for the file.-->
+
+
+  <!--In the layout, we have access to the @cart-->
+  <!--instance variable that was set by the controller. It turns out that this is also-->
+  <!--available inside partials called from the layout. However, this is a bit like call--->
+  <!--ing a method and passing it some value in a global variable. It works, but it’s-->
+  <!--ugly coding, and it increases coupling-->
+
+  <!--This is not required now as we call cart as ajax-->
+
+  <%= render(@cart.line_items) %>
+
+  <tr class="total_line">
+    <td colspan="2">Total</td>
+    <td class="total_cell"><%= number_to_currency(@cart.total_price) %></td>
+  </tr>
+</table>
+<!--DEPRECATION WARNING: :confirm option is deprecated and will be
+ removed from Rails 4.0. Use ':data => { :confirm => 'Text' }' instead.
+ (called from _app_views_carts_show_html_erb___401449365__617616548 at /home/arnab/www/depot/app/views/carts/show.html.erb:15)-->
+<%= button_to 'Empty cart', @cart, :method => :delete,
+              :data => {:confirm => 'Are you sure?'} %>
+<% end %>

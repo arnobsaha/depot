@@ -1,0 +1,13 @@
+<!--The files contain a combination of static text and dynamic content. We can customize the template in-->
+<!--order_received.text.erb;-->
+
+Dear <%= @order.name %>
+Thank you for your recent order from The Pragmatic Store.
+You ordered the following items:
+
+<!--The partial template that renders a line item formats a single line with the-->
+<!--item quantity and the title. Because we’re in a template, all the regular helper-->
+<!--methods, such as truncate, are available:-->
+
+<%= render @order.line_items %>
+We'll send you a separate e-mail when your order ships.

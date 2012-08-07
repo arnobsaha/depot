@@ -1,0 +1,23 @@
+//page.replace_html('cart', render(@cart)) It is now depreciated as .rjs extension depreciated
+
+$('div#cart').html('<%= escape_javascript render(@cart) %>');
+
+//This is used if the car s empty then it wll simply slide down
+$("div#cart").slideDown(1000,function(){
+    $(this).css("border", "2px red ")
+            .filter(".middle")
+            .css("background", "yellow")
+            .focus();
+    //$("div#cart").css("visibility", "hidden");
+});
+
+// Here now we add he javascript to highlight the product with specific color
+
+$('tr#current_item').animate({
+    opacity:0.10,
+    left:'+=50'
+}, 5000, function () {
+    // Animation complete.
+});
+
+

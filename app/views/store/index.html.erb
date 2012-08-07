@@ -1,0 +1,61 @@
+<% if notice %>
+    <p id="notice"><%= notice %></p>
+<% end %>
+<h1>Your Pragmatic Catalog</h1>
+You've been here <%= pluralize(@count.to_i, "time") %>
+<% @products.each do |product| %>
+    <div class="entry">
+      <!--We’ve also used the image_tag helper method. This generates an HTML <img>-->
+      <!--tag using its argument as the image source.-->
+
+      <%#= image_tag(product.image_url) %>
+      <%= link_to(image_tag(product.image_url), line_items_path(:product_id =>product), :method=> "create") %>
+
+      <h3><%= product.title %></h3>
+      <!--<h3><%#= t('.title_html') %></h3>-->
+
+      <!--Note the use of the sanitize method for the description. This allows us to safely-->
+      <!--add HTML stylings to make the descriptions more interesting for our cus--->
+      <!--tomers.-->
+
+      <%= sanitize(product.description) %>
+      <div class="price_line">
+        <!--Ruby provides a sprintf function that can be used to format prices. We could-->
+        <!--place logic that makes use of this function directly in the view. For example,-->
+        <!--we could say this:-->
+        <!--<span class="price"><%= sprintf("$%0.02f", product.price) %></span>-->
+
+        <!--Instead, let’s use a helper method to format the price as a currency. Rails has-->
+        <!--an appropriate one built in—it’s called number_to_currency.-->
+
+        <span class="price" ><%= number_to_currency(product.price) %></span>
+        <!--This choice even suggests the proper UI control to use. When we added links-->
+        <!--before, we used link_to, but links default to using HTTP GET. We want to use-->
+        <!--POST, so we will add a button this time; this means we will be using the-->
+        <!--button_to method.-->
+
+        <!--We could connect the button to the line item by specifying the URL, but again-->
+        <!--we can let Rails take care of this for us by simply appending _path to the-->
+        <!--controller’s name. In this case, we will use line_items_path.-->
+        <!--However, there’s a problem with this: how will the line_items_path method know-->
+        <!--which product to add to our cart? We’ll need to pass it the id of the product-->
+        <!--corresponding to the button. That’s easy enough—all we need to do is add the-->
+        <!--:product_id option to the line_items_path call. We can even pass in the product-->
+        <!--instance itself—Rails knows to extract the id from the record in circumstances-->
+        <!--such as these-->
+
+        <%#= button_to 'Add to Cart', line_items_path(:product_id => product) %>
+        <!--For calling ajax request ,we’re using button_to to create the link to the create action.-->
+        <!--We want to change this to send an Ajax request instead. To do this, we simply-->
+        <!--add a :remote => true parameter to the call.-->
+
+        <%#= button_to 'Add to Cart', line_items_path(:product_id => product),
+                      :remote => true %>
+        <!--It have been used to translate the button text-->
+        <%= button_to t('.add_html'), line_items_path(:product_id => product),
+                      :remote => true %>
+
+
+      </div>
+    </div>
+<% end %>

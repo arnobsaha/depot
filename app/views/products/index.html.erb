@@ -1,0 +1,54 @@
+<!--Even this simple template uses a number of built-in Rails features:-->
+<!--• The rows in the listing have alternating background colors. The Rails-->
+<!--helper method called cycle does this by setting the CSS class of each row-->
+<!--to either list_line_even or list_line_odd, automatically toggling between the-->
+<!--two style names on successive lines.-->
+<!--• The truncate helper is used to display just the first eighty characters of-->
+<!--the description. But before we call truncate, we called strip_tags in order to-->
+<!--remove the HTML tags from the description.-->
+<!--• Look at the link_to ’Destroy’ line. See how it has the parameter :confirm =>-->
+<!--’Are you sure?’. If you click this link, Rails arranges for your browser to-->
+<!--pop up a dialog box asking for confirmation before following the link and  deleting the product.-->
+
+<!--
+You may have noticed that the scaffold-generated Destroy link includes the
+parameter :method => :delete. This determines which method is called in the
+ProductsController class and also affects which HTTP method is used.
+
+A regular hyperlink, for example, uses an HTTP GET request. A GET request is defined by HTTP to be used
+to retrieve data;
+
+*** Important :  Note that when used within a browser, Rails will substitute the POST HTTP method
+for PUT and DELETE methods and in the process tack on an additional parameter
+so that the router can determine the original intent.
+-->
+
+<div id="product_list" >
+  <h1>Listing products</h1>
+  <table>
+    <% @products.each do |product| %>
+        <tr class="<%= cycle('list_line_odd', 'list_line_even') %>" >
+          <td>
+            <%= image_tag(product.image_url, :class => 'list_image') %>
+          </td>
+          <td class="list_description" >
+            <dl>
+              <dt><%= product.title %></dt>
+              <dd><%= truncate(strip_tags(product.description),
+                               :length => 80) %></dd>
+            </dl>
+          </td>
+          <td class="list_actions" >
+            <!--:confirm option is deprecated and will be removed from Rails 4.0.-->
+            <%= link_to 'Show', product %><br/>
+            <%= link_to 'Edit', edit_product_path(product) %><br/>
+            <%= link_to 'Destroy', product,
+                        :data => {:confirm => 'Are you sure?'},
+                        :method => :delete %>
+          </td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+<br />
+<%= link_to 'New product', new_product_path %>

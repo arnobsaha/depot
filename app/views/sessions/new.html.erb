@@ -1,0 +1,32 @@
+<div class="depot_form">
+  <% if flash[:alert] %>
+      <p id="notice"><%= flash[:alert] %></p>
+  <% end %>
+
+  <!--Rather than using form_for,-->
+  <!--it uses form_tag, which simply builds a regular HTML <form>. Inside that-->
+  <!--form, it uses text_field_tag and password_field_tag, two helpers that create HTML-->
+  <!--<input> tags. Each helper takes two parameters. The first is the name to give-->
+  <!--to the field, and the second is the value with which to populate the field. This-->
+  <!--style of form allows us to associate values in the params structure directly-->
+  <!--with form fields—no model object is required. In our case, we chose to use-->
+  <!--the params object directly in the form. An alternative would be to have the-->
+  <!--controller set instance variables.-->
+    <!--***Important : At form_tag we do not not need any form model bject to bnd-->
+  <%= form_tag do %>
+      <fieldset>
+        <legend>Please Log In</legend>
+        <div>
+          <label for="name">Name:</label>
+          <%= text_field_tag :name, params[:name] %>
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <%= password_field_tag :password, params[:password] %>
+        </div>
+        <div>
+          <%= submit_tag "Login" %>
+        </div>
+      </fieldset>
+  <% end %>
+</div>
